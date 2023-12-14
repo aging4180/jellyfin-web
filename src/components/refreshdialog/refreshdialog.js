@@ -38,6 +38,8 @@ function getEditorHtml() {
     html += '<div class="fieldDescription">';
     html += globalize.translate('RefreshDialogHelp');
     html += '</div>';
+    html += '<hr/>';
+    html += '<div class="quick_click" data-value="all" style="width:100%;height:50px;background: #00a4dc;color: #fff;display: flex;justify-content: center;align-items: center;">' + globalize.translate('ReplaceAllMetadata') + '</div>';
 
     html += '<input type="hidden" class="fldSelectedItemIds" />';
 
@@ -132,6 +134,12 @@ class RefreshDialog {
         dlg.innerHTML = html;
 
         dlg.querySelector('form').addEventListener('submit', onSubmit.bind(this));
+        dlg.addEventListener('click', function(e) {
+            if (e.target.className === 'quick_click') {
+                dlg.querySelector('#selectMetadataRefreshMode').value = e.target.dataset.value;
+                dlg.querySelector('.btnSubmit').click();
+            }
+        });
 
         dlg.querySelector('#selectMetadataRefreshMode').addEventListener('change', function () {
             if (this.value === 'scan') {

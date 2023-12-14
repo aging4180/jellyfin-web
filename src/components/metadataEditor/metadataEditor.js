@@ -521,7 +521,7 @@ import template from './metadataEditor.template.html';
             hideElement('#fldPath', context);
         }
 
-        if (item.Type === 'Series' || item.Type === 'Movie' || item.Type === 'Trailer' || item.Type === 'Person') {
+        if (item.Type === 'Series' || item.Type === 'Movie' || item.Type === 'Trailer' || item.Type === 'Person' || item.Type === 'Episode' || item.Type === 'Season') {
             showElement('#fldOriginalName', context);
         } else {
             hideElement('#fldOriginalName', context);

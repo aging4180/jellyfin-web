@@ -904,6 +904,20 @@ function toggleLineClamp(clampTarget, e) {
     }
 }
 
+function renderPath(page, item) {
+    let path = item.Path;
+    path = path.split('/').map(a=>`<span style="user-select:all;">${a}</span>`).join('/');
+    if (item.IsFolder === false) {
+        try {
+            path += `<span style="color:#fff;margin-left:4px">${Math.floor(item.MediaSources[0].Size / 1024 / 1024)}MB</span>`;
+        } catch (error) {
+            //
+        }
+    }
+    const pathElements = page.querySelectorAll('.file-path');
+    pathElements[0].innerHTML = path;
+}
+
 function renderOverview(page, item) {
     const overviewElements = page.querySelectorAll('.overview');
 
@@ -1081,6 +1095,7 @@ function renderDetails(page, item, apiClient, context, isStatic) {
     renderChannelGuide(page, apiClient, item);
     renderTagline(page, item);
     renderOverview(page, item);
+    renderPath(page, item);
     renderMiscInfo(page, item);
     reloadUserDataButtons(page, item);
 
@@ -2062,7 +2077,6 @@ export default function (view, params) {
         });
         view.addEventListener('viewshow', function (e) {
             const page = this;
-
             libraryMenu.setTransparentMenu(!layoutManager.mobile);
 
             if (e.detail.isRestored) {

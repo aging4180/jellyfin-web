@@ -1,0 +1,36 @@
+name: Build
+
+on: [workflow_dispatch]
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '16.x'
+      - name: npm install, build and test
+        run: npm install
+      # - name: install zip
+      #   run: |
+      #     sudo apt update -y
+      #     sudo apt install -y zip
+      #     rm -f dist.zip
+      #     zip -r dist.zip ./dist
+      # - uses: EndBug/add-and-commit@v9
+      #   with:
+      #     add: "dist.zip"
+      #     message: "[ci skip] dist.zip"
+
+    - name: Upload
+      uses: actions/upload-artifact@v3
+      with:
+        name: dist
+        path: dist
+
+

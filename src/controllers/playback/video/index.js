@@ -92,6 +92,10 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
                 parentName = displayItem.Name;
             }
 
+            if (displayItem.Type === 'Episode') {
+                parentName = displayItem.SeasonName || displayItem.SeriesName || displayItem.Album;
+            }
+
             setTitle(displayItem, parentName);
 
             const secondaryMediaInfo = view.querySelector('.osdSecondaryMediaInfo');
@@ -190,7 +194,22 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
                 view.querySelector('.btnAudio').classList.add('hide');
             }
 
+            const box = view.querySelector('.sliderMarkerContainer');
+            view.querySelectorAll('.sliderMarker').forEach(a=>a.remove());
+
             if (currentItem.Chapters?.length > 1) {
+                const disabled = currentItem.Chapters.every((b, i)=> b.StartPositionTicks === (3000000000 * i));
+                if (!disabled) {
+                    currentItem.Chapters.slice(1).forEach(item=>{
+                        const div = document.createElement('div');
+                        const position = (item.StartPositionTicks / currentItem.RunTimeTicks) * 100;
+                        div.style.left = `${position}%`;
+                        div.className = 'sliderMarker';
+                        div.setAttribute('data-position', position);
+                        box.appendChild(div);
+                    });
+                }
+
                 view.querySelector('.btnPreviousChapter').classList.remove('hide');
                 view.querySelector('.btnNextChapter').classList.remove('hide');
             } else {
@@ -1129,6 +1148,10 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
                     playbackManager.fastForward(currentPlayer);
                     showOsd(btnFastForward);
                     break;
+                case ']':
+                    playbackManager.fastForward80(currentPlayer);
+                    showOsd();
+                    break;
                 case 'j':
                 case 'ArrowLeft':
                 case 'Left':
@@ -1609,6 +1632,9 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
         });
         view.querySelector('.btnNextTrack').addEventListener('click', function () {
             playbackManager.nextTrack(currentPlayer);
+        });
+        view.querySelector('.btnFastForward80').addEventListener('click', function () {
+            playbackManager.fastForward80(currentPlayer);
         });
         btnRewind.addEventListener('click', function () {
             playbackManager.rewind(currentPlayer);

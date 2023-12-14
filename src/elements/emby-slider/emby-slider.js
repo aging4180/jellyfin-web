@@ -123,6 +123,19 @@ import '../emby-input/emby-input';
                 fraction *= 100;
                 backgroundLower.style.width = fraction + '%';
             }
+            try {
+                if (value) {
+                    document.querySelectorAll('.sliderMarkerContainer .sliderMarker').forEach((item)=>{
+                        const position = item.dataset.position;
+                        const positionNumber = position ? Number(position) : undefined;
+                        if (positionNumber) {
+                            item.style.setProperty('--cc', positionNumber >= Number(value) ? '' : '#00a4dc');
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error(error);
+            }
         });
     }
 

@@ -18,9 +18,7 @@ export function getDisplayName(item, options = {}) {
         }
         return name;
     }
-    if (item.Type === 'Episode' && item.ParentIndexNumber === 0) {
-        name = globalize.translate('ValueSpecialEpisodeName', name);
-    } else if ((item.Type === 'Episode' || item.Type === 'Program' || item.Type === 'Recording') && item.IndexNumber != null && item.ParentIndexNumber != null && options.includeIndexNumber !== false) {
+    if ((item.Type === 'Episode' || item.Type === 'Program' || item.Type === 'Recording') && item.IndexNumber != null && item.ParentIndexNumber != null && options.includeIndexNumber !== false) {
         let displayIndexNumber = item.IndexNumber;
 
         let number = displayIndexNumber;
@@ -33,12 +31,21 @@ export function getDisplayName(item, options = {}) {
         }
 
         if (item.IndexNumberEnd) {
-            displayIndexNumber = item.IndexNumberEnd;
+            number = (number||0).toString();
+            if (number.length === 1) number = '0' + number;
+            displayIndexNumber = (item.IndexNumberEnd||0).toString();
+            if (displayIndexNumber.length === 1) displayIndexNumber = '0' + displayIndexNumber;
             number += '-' + displayIndexNumber;
         }
 
-        if (number) {
-            name = name ? (number + nameSeparator + name) : number;
+        if (number || number === 0) {
+            let numberStr = number.toString();
+
+            if (numberStr.length === 1) numberStr = '0' + numberStr;
+            name = name ? (numberStr + nameSeparator + name) : numberStr;
+        }
+        if (item.Type === 'Episode' && item.ParentIndexNumber === 0) {
+            name = globalize.translate('ValueSpecialEpisodeName', name);
         }
     }
 

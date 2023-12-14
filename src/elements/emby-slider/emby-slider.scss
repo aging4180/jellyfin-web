@@ -11,7 +11,7 @@
     -moz-appearance: none;
     -ms-appearance: none;
     appearance: none;
-    height: 150%;/* 150% is needed, else ie and edge won't display the thumb properly */
+    height: 150%; /* 150% is needed, else ie and edge won't display the thumb properly */
     background: transparent;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -67,7 +67,7 @@
     width: 150%; /* need to occupy space */
 }
 
-.mdl-slider::-webkit-slider-thumb {
+.mdl-slider:not(.sliderMarkerContainer + .mdl-slider)::-webkit-slider-thumb {
     -webkit-appearance: none;
     width: 1.08em;
     height: 1.08em;
@@ -80,11 +80,13 @@
 }
 
 .mdl-slider-hoverthumb:hover::-webkit-slider-thumb {
-    transform: scale(1.3);
+    --w: 0.6em;
+    transform: scale(1.2);
 }
 
 .mdl-slider.show-focus:focus::-webkit-slider-thumb {
-    transform: scale(1.3);
+    --w: 0.6em;
+    transform: scale(1.2);
 }
 
 .mdl-slider::-moz-range-thumb {
@@ -245,4 +247,43 @@
 .sliderLabel {
     display: block;
     margin-bottom: 0.25em;
+}
+
+.sliderMarkerContainer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 0.54em; /* half of slider thumb size */
+}
+
+.sliderMarker {
+    --cc: rgba(255, 255, 255, 0.3);
+    --h: 0.7em;
+    --w: 0.32em;
+    margin-top: -0.1em;
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-top-color: var(--cc);
+    border-width: var(--h) var(--w);
+    border-style: solid;
+    margin-left: calc(-1 * var(--w));
+}
+
+.sliderMarkerContainer + .mdl-slider::-webkit-slider-thumb {
+    --h: 1em;
+    --w: 0.5em;
+    -webkit-appearance: none;
+    box-sizing: border-box;
+    background: transparent;
+    transition: 0.2s;
+    pointer-events: none;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-bottom-color: #00a4dc;
+    border-width: var(--h) var(--w);
+    border-style: solid;
 }

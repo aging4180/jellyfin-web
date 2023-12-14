@@ -3484,6 +3484,14 @@ class PlaybackManager {
 
         this.seekRelative(offsetTicks, player);
     }
+    fastForward80(player = this._currentPlayer) {
+        if (player.fastForward != null) {
+            player.fastForward(80000);
+            return;
+        }
+        const offsetTicks = 80000 * 10000;
+        this.seekRelative(offsetTicks, player);
+    }
 
     rewind(player = this._currentPlayer) {
         if (player.rewind != null) {

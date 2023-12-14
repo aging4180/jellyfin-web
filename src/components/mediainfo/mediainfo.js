@@ -258,7 +258,12 @@ import '../../elements/emby-button/emby-button';
             if (item.Type === 'Audio') {
                 miscInfo.push(datetime.getDisplayRunningTime(item.RunTimeTicks));
             } else {
-                miscInfo.push(datetime.getDisplayDuration(item.RunTimeTicks));
+                // miscInfo.push(datetime.getDisplayDuration(item.RunTimeTicks));
+                const all_second = Math.floor(item.RunTimeTicks / 10000000) || 0;
+                const all_minute = Math.floor(all_second / 60) || 0;
+                let second = Math.floor(all_second - all_minute * 60) || 0;
+                second = ('0' + second).slice(-2);
+                miscInfo.push(all_minute + ':' + second);
             }
         }
 
