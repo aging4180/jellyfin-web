@@ -132,6 +132,7 @@ import template from './metadataEditor.template.html';
             CommunityRating: form.querySelector('#txtCommunityRating').value,
             CriticRating: form.querySelector('#txtCriticRating').value,
             IndexNumber: form.querySelector('#txtIndexNumber').value || null,
+            IndexNumberEnd: form.querySelector('#txtIndexNumberEnd').value || null,
             AirsBeforeSeasonNumber: form.querySelector('#txtAirsBeforeSeason').value,
             AirsAfterSeasonNumber: form.querySelector('#txtAirsAfterSeason').value,
             AirsBeforeEpisodeNumber: form.querySelector('#txtAirsBeforeEpisode').value,
@@ -662,7 +663,9 @@ import template from './metadataEditor.template.html';
             showElement('#fldIndexNumber');
 
             if (item.Type === 'Episode') {
+                showElement('#fldIndexNumberEnd');
                 context.querySelector('#txtIndexNumber').label(globalize.translate('LabelEpisodeNumber'));
+                context.querySelector('#txtIndexNumberEnd').label('结束集号：');
             } else if (item.Type === 'Season') {
                 context.querySelector('#txtIndexNumber').label(globalize.translate('LabelSeasonNumber'));
             } else if (item.Type === 'Audio') {
@@ -767,6 +770,7 @@ import template from './metadataEditor.template.html';
         context.querySelector('#txtCriticRating').value = item.CriticRating || '';
 
         context.querySelector('#txtIndexNumber').value = item.IndexNumber == null ? '' : item.IndexNumber;
+        context.querySelector('#txtIndexNumberEnd').value = item.IndexNumberEnd == null ? '' : item.IndexNumberEnd;
         context.querySelector('#txtParentIndexNumber').value = item.ParentIndexNumber == null ? '' : item.ParentIndexNumber;
 
         context.querySelector('#txtAirsBeforeSeason').value = ('AirsBeforeSeasonNumber' in item) ? item.AirsBeforeSeasonNumber : '';
